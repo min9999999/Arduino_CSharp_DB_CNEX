@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\제5강의실-14\\Desktop\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj": {}
+    "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj": {}
   },
   "projects": {
-    "C:\\Users\\제5강의실-14\\Desktop\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj": {
+    "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\제5강의실-14\\Desktop\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
+        "projectUniqueName": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
         "projectName": "WinFormsApp1",
-        "projectPath": "C:\\Users\\제5강의실-14\\Desktop\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
+        "projectPath": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
         "packagesPath": "C:\\Users\\제5강의실-14\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\제5강의실-14\\Desktop\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\obj\\",
+        "outputPath": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -57,6 +57,10 @@
             "FirebaseDatabase.net": {
               "target": "Package",
               "version": "[4.2.0, )"
+            },
+            "LiteDB": {
+              "target": "Package",
+              "version": "[5.0.21, )"
             },
             "System.IO.Ports": {
               "target": "Package",

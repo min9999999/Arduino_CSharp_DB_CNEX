@@ -1,51 +1,134 @@
-using System;
+ï»¿using System;
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-using Firebase.Database;
-using Firebase.Database.Query;
-//using FireSharp;
+//using Firebase.Database;
+//using Firebase.Database.Query;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 using Newtonsoft.Json;
+using FireSharp;
+using FireSharp.Config;
+using FireSharp.Interfaces;
+using static WinFormsApp1.Form1;
+using FireSharp.Response;
+using Newtonsoft.Json.Linq;
+using System.Reactive;
 
 namespace WinFormsApp1
-{
+{ 
     public partial class Form1 : Form
     {
-        public class Data
+        class connection
         {
-            public string Category;
-            public int Value;
-            public string Timestamp;
+            // Firebase í´ë¼ì´ì–¸íŠ¸ ì„¸íŒ…
+            public IFirebaseConfig fc = new FirebaseConfig()
+            {
+                AuthSecret = "E09Dva4dBklDbRCYPQi9TGPkvCU8Ut0vn9Iji737",
+                BasePath = "https://arduinoconnectex-default-rtdb.firebaseio.com/"
+            };
+
+            public IFirebaseClient client;
+            //Code to warn console if class cannot connect when called.
+            public connection()
+            {
+                try
+                {
+                    client = new FireSharp.FirebaseClient(fc);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("sunucuya baÄŸlanÄ±lamadÄ±");
+                }
+            }
         }
 
-        private const string BasePath = "https://arduinoconnectex-default-rtdb.firebaseio.com/"; //º»ÀÎÀÇ Firebase Database URLÀ» ÀÔ·Â
-        private const string FirebaseSecret = "E09Dva4dBklDbRCYPQi9TGPkvCU8Ut0vn9Iji737"; //º»ÀÎÀÇ Firebase Database ºñ¹Ğ¹øÈ£¸¦ ÀÔ·Â
-        private static FirebaseClient _client;
+        public class Data
+        {
+            public string Category { get; set; }
+            public int Value { get; set; }
+            public string Timestamp { get; set; }
+        }
 
         SerialPort port = new SerialPort();
+        Crud crud = new Crud();
 
         public Form1()
         {
             InitializeComponent();
-            _client = new FirebaseClient(BasePath, new FirebaseOptions
-            {
-                AuthTokenAsyncFactory = () => Task.FromResult(FirebaseSecret)
-            });
         }
 
-        private async void button3_Click(object sender, EventArgs e)
+        class Crud
         {
+            connection conn = new connection();
+
+            //set datas to database
+            public async Task SetData(string Category, int Value, string Timestamp)
+            {
+                try
+                {
+                    Data data = new Data()
+                    {
+                        Category = Category,
+                        Value = Value,
+                        Timestamp = Timestamp
+                    };
+                    var SetData = conn.client.Set("Arduino/Log/" + Timestamp, data);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+
+            }
+
+            //Update datas
+            public async Task UpdateData(string Category, int Value, string Timestamp)
+            {
+                try
+                {
+                    Data data = new Data()
+                    {
+                        Category = Category,
+                        Value = Value,
+                        Timestamp = Timestamp
+                    };
+                    var SetData = conn.client.Update("Arduino/Log/" + Timestamp, data);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                }
+            }
+
+            //List of the datas
+            public Dictionary<string, Data> LoadData()
+            {
+                try
+                {
+                    FirebaseResponse al = conn.client.Get("Arduino/Log/");
+                    Dictionary<string, Data> ListData = JsonConvert.DeserializeObject<Dictionary<string, Data>>(al.Body.ToString());
+                    return ListData;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("bir hata ile karÅŸÄ±laÅŸÄ±ldÄ±");
+                    return null;
+                }
+            }
+        }
+
+            private async void button3_Click(object sender, EventArgs e)
+            {
             if (!port.IsOpen) return;
 
-            // ¾ÆµÎÀÌ³ë¿¡ "1" Àü¼Û
+            // ì•„ë‘ì´ë…¸ì— "1" ì „ì†¡
             port.Write("1");
 
-            // ÇöÀç ³¯Â¥¿Í ½Ã°£À» °¡Á®¿È
+            // í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„ì„ ê°€ì ¸ì˜´
             string currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            // Firebase¿¡ µ¥ÀÌÅÍ ÀúÀå
+            // Firebaseì— ë°ì´í„° ì €ì¥
             var data = new Data
             {
                 Category = "ON",
@@ -53,33 +136,30 @@ namespace WinFormsApp1
                 Timestamp = currentDateTime
             };
 
-            // µ¥ÀÌÅÍ Àü¼Û
-            await _client
-                 .Child("Arduino/Log") // µ¥ÀÌÅÍ°¡ ÀúÀåµÉ °æ·Î¸¦ ÁöÁ¤
-                 .PostAsync(data); // Firebase¿¡ µ¥ÀÌÅÍ Àü¼Û
+            // ë°ì´í„° ì „ì†¡
+            crud.SetData("ON", 1, currentDateTime);
         }
 
         private async void button4_Click(object sender, EventArgs e)
         {
             if (!port.IsOpen) return;
 
-            // ¾ÆµÎÀÌ³ë¿¡ "0" Àü¼Û
+            // ì•„ë‘ì´ë…¸ì— "0" ì „ì†¡
             port.Write("0");
 
-            // ÇöÀç ³¯Â¥¿Í ½Ã°£À» °¡Á®¿È
+            // í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„ì„ ê°€ì ¸ì˜´
             string currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            // Firebase¿¡ µ¥ÀÌÅÍ ÀúÀå
-           var data = new Data
-           {
-               Category = "OFF",
-               Value = 0,
-               Timestamp = currentDateTime
-           };
+            // Firebaseì— ë°ì´í„° ì €ì¥
+            var data = new Data
+            {
+                Category = "OFF",
+                Value = 0,
+                Timestamp = currentDateTime
+            };
 
-            await _client
-                 .Child("Arduino/Log") // µ¥ÀÌÅÍ°¡ ÀúÀåµÉ °æ·Î¸¦ ÁöÁ¤
-                 .PostAsync(data); // Firebase¿¡ µ¥ÀÌÅÍ Àü¼Û
+            // ë°ì´í„° ì „ì†¡
+            crud.SetData("OFF", 0, currentDateTime);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -93,17 +173,17 @@ namespace WinFormsApp1
                 }
                 else
                 {
-                    port.PortName = comboBox1.SelectedItem.ToString(); // "Com" ¼±ÅÃ;
+                    port.PortName = comboBox1.SelectedItem.ToString(); // "Com" ì„ íƒ;
                     port.BaudRate = 9600;
                     port.DataBits = 8;
-                    port.StopBits = StopBits.One;                      // "StopBits": Á¤ÁöºñÆ®ÀÇ ¼ö¸¦ ³ªÅ¸³»´Â ¿­°ÅÇü
-                    port.Parity = Parity.None;                         // "Parity Bit": µ¥ÀÌÅÍ Àü¼Û Áß ¿À·ù¸¦ °¨ÁöÇÏ´Âµ¥ È°¿ë
+                    port.StopBits = StopBits.One;                      // "StopBits": ì •ì§€ë¹„íŠ¸ì˜ ìˆ˜ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ì—´ê±°í˜•
+                    port.Parity = Parity.None;                         // "Parity Bit": ë°ì´í„° ì „ì†¡ ì¤‘ ì˜¤ë¥˜ë¥¼ ê°ì§€í•˜ëŠ”ë° í™œìš©
                     port.Open();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), "¾Ë¸²", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.ToString(), "ì•Œë¦¼", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             button1.Text = port.IsOpen ? "Disconnect" : "Connect";
@@ -123,39 +203,41 @@ namespace WinFormsApp1
         {
             try
             {
-                // Firebase¿¡¼­ µ¥ÀÌÅÍ °¡Á®¿À±â
-                var data = await _client
-                    .Child("Arduino/Log") // µ¥ÀÌÅÍ°¡ ÀúÀåµÈ °æ·Î¸¦ ÁöÁ¤
-                    .OnceAsync<DataModel>(); // DataModelÀº Firebase¿¡¼­ °¡Á®¿Ã µ¥ÀÌÅÍÀÇ Çü½Ä
-
-                // ¹ÙÅÁÈ­¸é °æ·Î ¼³Á¤
+                // Firebaseì—ì„œ ë°ì´í„° ê°€ì ¸ì˜¤ê¸°
+                foreach (var item in crud.LoadData())
+                {
+                    Console.WriteLine("Category :" + item.Value.Category);
+                    Console.WriteLine("Value :" + item.Value.Value);
+                    Console.WriteLine("Timestamp :" + item.Value.Timestamp);
+                }
+                // ë°”íƒ•í™”ë©´ ê²½ë¡œ ì„¤ì •
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 
-                // ÇöÀç ³¯Â¥¿Í ½Ã°£À» Æ÷¸ËÇÏ¿© ÆÄÀÏ¸í »ı¼º
+                // í˜„ì¬ ë‚ ì§œì™€ ì‹œê°„ì„ í¬ë§·í•˜ì—¬ íŒŒì¼ëª… ìƒì„±
                 string fileName = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_data.csv";
                 string filePath = Path.Combine(desktopPath, fileName);
 
-                // CSV ÆÄÀÏ·Î ÀúÀå
+                // CSV íŒŒì¼ë¡œ ì €ì¥
                 using (var writer = new StreamWriter(filePath))
                 {
-                    // CSV Çì´õ ÀÛ¼º
+                    // CSV í—¤ë” ì‘ì„±
                     await writer.WriteLineAsync("Timestamp,Category,Value,");
 
-                    // µ¥ÀÌÅÍ ÀÛ¼º
-                    foreach (var item in data)
+                    // ë°ì´í„° ì‘ì„±
+                    foreach (var item in crud.LoadData())
                     {
-                        var Category = item.Object.Category;
-                        var value = item.Object.Value;
-                        var timestamp = item.Object.Timestamp;
+                        var Category = item.Value.Category;
+                        var value = item.Value.Value;
+                        var timestamp = item.Value.Timestamp;
                         await writer.WriteLineAsync($"{timestamp},{Category},{value}");
                     }
                 }
 
-                MessageBox.Show("CSV ÆÄÀÏÀÌ ¼º°øÀûÀ¸·Î ÀúÀåµÇ¾ú½À´Ï´Ù.");
+                MessageBox.Show("CSV íŒŒì¼ì´ ì„±ê³µì ìœ¼ë¡œ ì €ì¥ë˜ì—ˆìŠµë‹ˆë‹¤.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"¿À·ù ¹ß»ı: {ex.Message}");
+                MessageBox.Show($"ì˜¤ë¥˜ ë°œìƒ: {ex.Message}");
             }
         }
         public class DataModel
@@ -166,7 +248,3 @@ namespace WinFormsApp1
         }
     }
 }
-
-
-
-       
