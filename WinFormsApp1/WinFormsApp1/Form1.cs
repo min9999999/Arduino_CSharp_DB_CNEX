@@ -2,8 +2,6 @@
 using System.IO.Ports;
 using System.Windows.Forms;
 using System.Threading.Tasks;
-//using Firebase.Database;
-//using Firebase.Database.Query;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Xml.Linq;
 using Newtonsoft.Json;
@@ -38,16 +36,16 @@ namespace WinFormsApp1
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("sunucuya bağlanılamadı");
+                    Console.WriteLine("오류가 발생했습니다.");
                 }
             }
         }
 
         public class Data
         {
+            public string Timestamp { get; set; }
             public string Category { get; set; }
             public int Value { get; set; }
-            public string Timestamp { get; set; }
         }
 
         SerialPort port = new SerialPort();
@@ -69,9 +67,9 @@ namespace WinFormsApp1
                 {
                     Data data = new Data()
                     {
+                        Timestamp = Timestamp,
                         Category = Category,
-                        Value = Value,
-                        Timestamp = Timestamp
+                        Value = Value
                     };
                     var SetData = conn.client.Set("Arduino/Log/" + Timestamp, data);
                 }
@@ -89,9 +87,10 @@ namespace WinFormsApp1
                 {
                     Data data = new Data()
                     {
+                        Timestamp = Timestamp,
                         Category = Category,
-                        Value = Value,
-                        Timestamp = Timestamp
+                        Value = Value
+                        
                     };
                     var SetData = conn.client.Update("Arduino/Log/" + Timestamp, data);
                 }
@@ -112,7 +111,7 @@ namespace WinFormsApp1
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("bir hata ile karşılaşıldı");
+                    Console.WriteLine("오류가 발생했습니다");
                     return null;
                 }
             }
@@ -131,9 +130,10 @@ namespace WinFormsApp1
             // Firebase에 데이터 저장
             var data = new Data
             {
+                Timestamp = currentDateTime,
                 Category = "ON",
-                Value = 1,
-                Timestamp = currentDateTime
+                Value = 1
+                
             };
 
             // 데이터 전송
@@ -153,9 +153,10 @@ namespace WinFormsApp1
             // Firebase에 데이터 저장
             var data = new Data
             {
+                Timestamp = currentDateTime,
                 Category = "OFF",
-                Value = 0,
-                Timestamp = currentDateTime
+                Value = 0
+
             };
 
             // 데이터 전송
@@ -206,9 +207,10 @@ namespace WinFormsApp1
                 // Firebase에서 데이터 가져오기
                 foreach (var item in crud.LoadData())
                 {
+                    Console.WriteLine("Timestamp :" + item.Value.Timestamp);
                     Console.WriteLine("Category :" + item.Value.Category);
                     Console.WriteLine("Value :" + item.Value.Value);
-                    Console.WriteLine("Timestamp :" + item.Value.Timestamp);
+
                 }
                 // 바탕화면 경로 설정
                 string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -226,9 +228,10 @@ namespace WinFormsApp1
                     // 데이터 작성
                     foreach (var item in crud.LoadData())
                     {
+                        var timestamp = item.Value.Timestamp;
                         var Category = item.Value.Category;
                         var value = item.Value.Value;
-                        var timestamp = item.Value.Timestamp;
+                        
                         await writer.WriteLineAsync($"{timestamp},{Category},{value}");
                     }
                 }
