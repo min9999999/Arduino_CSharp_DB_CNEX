@@ -36,6 +36,7 @@
             comboBox1 = new ComboBox();
             button2 = new Button();
             label3 = new Label();
+            messageLabel = new Label();
             SuspendLayout();
             // 
             // label1
@@ -114,11 +115,21 @@
             label3.TabIndex = 9;
             label3.Text = "CSV_EXPORT";
             // 
+            // messageLabel
+            // 
+            messageLabel.AutoSize = true;
+            messageLabel.Location = new Point(26, 101);
+            messageLabel.Name = "messageLabel";
+            messageLabel.Size = new Size(53, 15);
+            messageLabel.TabIndex = 10;
+            messageLabel.Text = "Message";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(311, 450);
+            Controls.Add(messageLabel);
             Controls.Add(label3);
             Controls.Add(button2);
             Controls.Add(comboBox1);
@@ -142,5 +153,6 @@
         private ComboBox comboBox1;
         private Button button2;
         private Label label3;
+        public Label messageLabel;
     }
 }

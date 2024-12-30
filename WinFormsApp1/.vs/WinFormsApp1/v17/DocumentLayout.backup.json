@@ -3,16 +3,15 @@
   "WorkspaceRootPath": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|c:\\group_project\\arduino_csharp_db_cnex\\winformsapp1\\winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|c:\\group_project\\arduino_csharp_db_cnex\\winformsapp1\\winformsapp1\\winformsapp1.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\winformsapp1.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\\uC81C5\uAC15\uC758\uC2E4-14\\Desktop\\\uBBFC\uC900\uAE30\\4. C#\\2024-12-20(\uC120\uC0DD\uB2D8\uD074\uB860)\\MyFirstUnitySoftware\\Assets\\Scripts\\TCPCommunicationEX\\TCPClientEx.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|c:\\group_project\\arduino_csharp_db_cnex\\winformsapp1\\winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{671EEE1D-158D-4321-B63A-D5EA9C4CA505}|WinFormsApp1\\WinFormsApp1.csproj|solutionrelative:winformsapp1\\form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,7 +21,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,13 +29,13 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\Form1.cs",
               "RelativeDocumentMoniker": "WinFormsApp1\\Form1.cs",
               "ToolTip": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\Form1.cs",
               "RelativeToolTip": "WinFormsApp1\\Form1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAACAAAAAAAAAA==",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAhwF0AAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-12-23T09:24:02.631Z",
               "IsPinned": true,
@@ -55,31 +54,29 @@
               "Name": "ST:0:0:{c9c0ae26-aa77-11d2-b3f0-0000f87570ee}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
-            },
-            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
               "Title": "Form1.cs [\uB514\uC790\uC778]",
               "DocumentMoniker": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\Form1.cs",
               "RelativeDocumentMoniker": "WinFormsApp1\\Form1.cs",
               "ToolTip": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\Form1.cs [\uB514\uC790\uC778]",
               "RelativeToolTip": "WinFormsApp1\\Form1.cs [\uB514\uC790\uC778]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-12-24T08:16:37.914Z"
+              "WhenOpened": "2024-12-24T08:16:37.914Z",
+              "EditorCaption": " [\uB514\uC790\uC778]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "WinFormsApp1.csproj",
-              "DocumentMoniker": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
-              "RelativeDocumentMoniker": "WinFormsApp1\\WinFormsApp1.csproj",
-              "ToolTip": "C:\\Group_Project\\Arduino_CSharp_DB_CNEX\\WinFormsApp1\\WinFormsApp1\\WinFormsApp1.csproj",
-              "RelativeToolTip": "WinFormsApp1\\WinFormsApp1.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-12-24T05:23:21.746Z"
+              "DocumentIndex": 1,
+              "Title": "TCPClientEx.cs",
+              "DocumentMoniker": "C:\\Users\\\uC81C5\uAC15\uC758\uC2E4-14\\Desktop\\\uBBFC\uC900\uAE30\\4. C#\\2024-12-20(\uC120\uC0DD\uB2D8\uD074\uB860)\\MyFirstUnitySoftware\\Assets\\Scripts\\TCPCommunicationEX\\TCPClientEx.cs",
+              "RelativeDocumentMoniker": "..\\..\\..\\Users\\\uC81C5\uAC15\uC758\uC2E4-14\\Desktop\\\uBBFC\uC900\uAE30\\4. C#\\2024-12-20(\uC120\uC0DD\uB2D8\uD074\uB860)\\MyFirstUnitySoftware\\Assets\\Scripts\\TCPCommunicationEX\\TCPClientEx.cs",
+              "ToolTip": "C:\\Users\\\uC81C5\uAC15\uC758\uC2E4-14\\Desktop\\\uBBFC\uC900\uAE30\\4. C#\\2024-12-20(\uC120\uC0DD\uB2D8\uD074\uB860)\\MyFirstUnitySoftware\\Assets\\Scripts\\TCPCommunicationEX\\TCPClientEx.cs",
+              "RelativeToolTip": "..\\..\\..\\Users\\\uC81C5\uAC15\uC758\uC2E4-14\\Desktop\\\uBBFC\uC900\uAE30\\4. C#\\2024-12-20(\uC120\uC0DD\uB2D8\uD074\uB860)\\MyFirstUnitySoftware\\Assets\\Scripts\\TCPCommunicationEX\\TCPClientEx.cs",
+              "ViewState": "AgIAAGgAAAAAAAAAAAD4v5AAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-27T09:23:36.476Z",
+              "EditorCaption": ""
             }
           ]
         }
