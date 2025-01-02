@@ -37,6 +37,10 @@
             button2 = new Button();
             label3 = new Label();
             messageLabel = new Label();
+            button5 = new Button();
+            pictureBox1 = new PictureBox();
+            textBox1 = new TextBox();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -98,7 +102,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(75, 328);
+            button2.Location = new Point(79, 459);
             button2.Name = "button2";
             button2.Size = new Size(91, 33);
             button2.TabIndex = 8;
@@ -109,7 +113,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(89, 292);
+            label3.Location = new Point(93, 423);
             label3.Name = "label3";
             label3.Size = new Size(77, 15);
             label3.TabIndex = 9;
@@ -124,11 +128,40 @@
             messageLabel.TabIndex = 10;
             messageLabel.Text = "Message";
             // 
+            // button5
+            // 
+            button5.Location = new Point(300, 57);
+            button5.Name = "button5";
+            button5.Size = new Size(91, 33);
+            button5.TabIndex = 11;
+            button5.Text = "Unity Start";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(300, 101);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(597, 322);
+            pictureBox1.TabIndex = 12;
+            pictureBox1.TabStop = false;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(19, 243);
+            textBox1.Multiline = true;
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(202, 150);
+            textBox1.TabIndex = 13;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(311, 450);
+            ClientSize = new Size(930, 610);
+            Controls.Add(textBox1);
+            Controls.Add(pictureBox1);
+            Controls.Add(button5);
             Controls.Add(messageLabel);
             Controls.Add(label3);
             Controls.Add(button2);
@@ -140,6 +173,7 @@
             Controls.Add(label1);
             Name = "Form1";
             Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -154,5 +188,8 @@
         private Button button2;
         private Label label3;
         public Label messageLabel;
+        private Button button5;
+        private PictureBox pictureBox1;
+        private TextBox textBox1;
     }
 }

@@ -11,8 +11,12 @@ void loop() {
   switch(Serial.read())
   {
     case'1':
-     digitalWrite(13,1); break;
-    case '0':
+     String data = Serial.readStringUntil('\n'); // 데이터 읽기
+     Serial.println(data); // 수신한 데이터 다시 송신
+     digitalWrite(13, 1); break;
+    case'0':
+     String data = Serial.readStringUntil('\n'); // 데이터 읽기
+     Serial.println(data); // 수신한 데이터 다시 송신
      digitalWrite(13, 0); break;
   }
  }

@@ -15,10 +15,12 @@ using FireSharp.Response;
 using Newtonsoft.Json.Linq;
 using static System.Windows.Forms.DataFormats;
 using System.Text;
+using System.Diagnostics;
+using System.Reactive;
 
 
 namespace WinFormsApp1
-{ 
+{
     public partial class Form1 : Form
     {
         public TcpListener server;
@@ -27,7 +29,7 @@ namespace WinFormsApp1
         string message = "0";
         string response = "";
         bool cDataProcessed = false; // C_DATA가 처리되었는지 여부를 나타내는 플래그
-
+        private Process unityProcess;
 
         // winform 실행시 서버를 켠다.
         public Form1()
@@ -37,7 +39,7 @@ namespace WinFormsApp1
             server = new TcpListener(IPAddress.Any, 7000);
         }
 
-      // Firebase 클라이언트 세팅
+        // Firebase 클라이언트 세팅
         class connection
         {
             public IFirebaseConfig fc = new FirebaseConfig()
@@ -60,7 +62,8 @@ namespace WinFormsApp1
                 }
             }
         }
-      
+
+        // 데이터 정보 세팅
         public class Data
         {
             public string Timestamp { get; set; }
@@ -71,12 +74,12 @@ namespace WinFormsApp1
         SerialPort port = new SerialPort();
         Crud crud = new Crud();
 
-
+        // Firebase 데이터 트리 세팅
         class Crud
         {
             connection conn = new connection();
 
-            //set datas to database
+            //C#(windowform) -> Firebase
             public async Task SetData(string Category, int Value, string Timestamp)
             {
                 try
@@ -96,27 +99,7 @@ namespace WinFormsApp1
 
             }
 
-            //Update datas
-            public async Task UpdateData(string Category, int Value, string Timestamp)
-            {
-                try
-                {
-                    Data data = new Data()
-                    {
-                        Timestamp = Timestamp,
-                        Category = Category,
-                        Value = Value
-                        
-                    };
-                    var SetData = conn.client.Update("Arduino/Log/" + Timestamp, data);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex);
-                }
-            }
-
-            //List of the datas
+            //C#(windowform) <- Firebase
             public Dictionary<string, Data> LoadData()
             {
                 try
@@ -132,7 +115,7 @@ namespace WinFormsApp1
                 }
             }
         }
-         private async void button3_Click(object sender, EventArgs e)
+        private async void button3_Click(object sender, EventArgs e)
         {
             // 아두이노가 연결이 된다는 조건하에 아래 내용들이 실행됨.
             if (!port.IsOpen) return;
@@ -144,8 +127,13 @@ namespace WinFormsApp1
             message = "1";
             cDataProcessed = true; // C_DATA가 처리되었는지 여부를 나타내는 플래그
 
+
             // 현재 날짜와 시간을 가져옴
             string currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+            // 텍스트 박스에 로그 출력
+            textBox1.AppendText(currentDateTime + "/ON/" + "1" + Environment.NewLine);
+
 
             // Firebase에 데이터 저장
             var data_Firebase = new Data
@@ -175,7 +163,10 @@ namespace WinFormsApp1
             // 현재 날짜와 시간을 가져옴
             string currentDateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            // Firebase에 데이터 저장
+            // 텍스트 박스에 로그 출력
+            textBox1.AppendText(currentDateTime + "/OFF/" + "0" + Environment.NewLine);
+
+            // 데이터 저장
             var data_Firebase = new Data
             {
                 Timestamp = currentDateTime,
@@ -184,7 +175,7 @@ namespace WinFormsApp1
 
             };
 
-            // 데이터 전송
+            // Firebase에 데이터 전송
             crud.SetData("OFF", 0, currentDateTime);
         }
 
@@ -232,9 +223,9 @@ namespace WinFormsApp1
             comboBox1.Enabled = !port.IsOpen;
         }
 
-            byte[] buffer = new byte[1024];
-            int bytesRead;
-            string messageFromClient;
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        string messageFromClient;
 
         // 서버가 실행되고 나서 반복 실행이 되게끔.. Thread를 만들고 위에서 버튼 클릭시 무한 작동함.
         void update()
@@ -247,19 +238,19 @@ namespace WinFormsApp1
                 bytesRead = stream.Read(buffer, 0, buffer.Length); // 클라이언트와 서버간 소통 내용을 bytesRead에 담음
                 messageFromClient = Encoding.UTF8.GetString(buffer, 0, bytesRead); // 서버 언어 -> 클라이언트 언어으로 통역
 
-                if(messageFromClient.Contains("Connect")) // 서버로 들어온 클라이언트 언어가 connect일때 response으로 담음.
+                if (messageFromClient.Contains("Connect")) // 서버로 들어온 클라이언트 언어가 connect일때 response으로 담음.
                 {
-                     response = "서버에 잘 연결 되었습니다.";
+                    response = "서버에 잘 연결 되었습니다.";
                 }
-                else if(messageFromClient.Contains("C_DATA")) // C_DATA가 처음 들어왔을 때만 처리
+                else if (messageFromClient.Contains("C_DATA")) // C_DATA가 처음 들어왔을 때만 처리
                 {
-                     response = message;
+                    response = message;
                     cDataProcessed = false; // 다음 C_DATA를 위해 플래그를 초기화
                 }
-                else if(messageFromClient.Contains("Disconnect"))
-                 {
-                     response = "서버가 종료되었습니다.";
-                 }
+                else if (messageFromClient.Contains("Disconnect"))
+                {
+                    response = "서버가 종료되었습니다.";
+                }
                 else
                 {
                     response = "";
@@ -269,8 +260,8 @@ namespace WinFormsApp1
                 responseBytes = Encoding.UTF8.GetBytes(response); // response의 새로운 배열 준비
                 stream.Write(responseBytes, 0, responseBytes.Length); // responseBytes의 내용을 stream에 작성함.
 
-             }
-         }
+            }
+        }
 
         private void comboBox1_Click(object sender, EventArgs e)
         {
@@ -312,7 +303,7 @@ namespace WinFormsApp1
                         var timestamp = item.Value.Timestamp;
                         var Category = item.Value.Category;
                         var value = item.Value.Value;
-                        
+
                         await writer.WriteLineAsync($"{timestamp},{Category},{value}");
                     }
                 }
@@ -329,6 +320,47 @@ namespace WinFormsApp1
             public string Timestamp { get; set; }
             public string Category { get; set; }
             public int Value { get; set; }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            //// Unity 실행 파일 경로
+            //string unityExePath = @"C:\Group_Project\Unity\My project (4)\exe_Folder\WinformCnTest.exe";
+
+            //try
+            //{
+            //    // ProcessStartInfo를 사용하여 Unity 실행
+            //    ProcessStartInfo startInfo = new ProcessStartInfo
+            //    {
+            //        FileName = unityExePath,
+            //        UseShellExecute = true
+            //    };
+
+            //    unityProcess = Process.Start(startInfo);
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show("Unity 실행 중 오류 발생: " + ex.Message);
+            //}
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            //// Unity 프로세스 종료
+            //if (unityProcess != null && !unityProcess.HasExited)
+            //{
+            //    unityProcess.Kill();
+            //}
+        }
+
+        // 유니티를 윈폼 화면에 출력하는 명령어
+        private void LoadImage()
+        {
+            //string imagePath = @"C:\Path\To\Your\RenderTextureImage.png";
+            //if (System.IO.File.Exists(imagePath))
+            //{
+            //    pictureBox1.Image = Image.FromFile(imagePath);
+            //}
         }
     }
 }
